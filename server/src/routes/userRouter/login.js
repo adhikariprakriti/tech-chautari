@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const db=require('../../database/connection')
+const jwt=require('jsonwebtoken')
+const generateAuthToken =require('../../functions/generatetoken')
 
 
 router.post('/api/login', (req,res)=>{
@@ -24,19 +26,27 @@ router.post('/api/login', (req,res)=>{
 
            //check password
            bcrypt.compare(password,result[0].password).then(isMatch=>{
-               console.log(isMatch)
+               
               if(isMatch===false){
                   return res.status(401).send({
                     msg:"email or Password is incorrect "
                 })
             }
 
-
-
-              return res.status(200).send({
+             //generate token
+             const token=generateAuthToken(result[0].user_id)
+             
+            /* db.query("INSERT INTO token SET ?", {user_id:result[0].user_id,token:token}, function (err, result) {  
+                if (err) throw err;
+                console.log(token,"bbb")  
+                }); 
+            */
+                
+               return res.status(200).send({
                 msg:"logged in successfully",
-                user:result[0]
-           })
+                user:result[0],
+                token
+             })
           
           })
 

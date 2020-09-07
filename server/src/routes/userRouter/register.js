@@ -3,7 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 var validator = require("email-validator");
 const db=require('../../database/connection')
-
+const jwt=require('jsonwebtoken')
+const generateAuthToken =require('../../functions/generatetoken')
 
 
 router.post('/api/register',(req,res)=>{
@@ -42,6 +43,7 @@ router.post('/api/register',(req,res)=>{
 
 
     db.query(`SELECT * FROM users WHERE email=?`,email,(err, result) => {
+         
         if(err){
             return res.status(400).send({
                 msg:err
@@ -58,6 +60,7 @@ router.post('/api/register',(req,res)=>{
           bcrypt.hash(password, 8).then((hash)=> {
             //set the password to hash value
             user.password=hash
+
           }).then(()=>{
             db.query("INSERT INTO users SET ?",user,(err,result)=>{
               if(err){
@@ -65,11 +68,26 @@ router.post('/api/register',(req,res)=>{
                       msg:err
                   })
               }
-              return res.status(201)
-              .send({
+
+            
+                
+               db.query('SELECT * FROM users WHERE email=?',email,(err,result)=>{
+                if(err){
+                  return res.status(400).send({
+                      msg:err
+                  })
+                }
+                 //generate token after registration
+                 console.log(result)
+                 const token= generateAuthToken(result[0].user_id)
+                 return res.status(201)
+                  .send({
                       user,
+                      token,
                       msg:"successfully registered"
                     })
+               })
+       
           })
           })        
   });

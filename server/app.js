@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const bodyParser=require('body-parser');
@@ -19,6 +19,7 @@ const registerRouter = require('./src/routes/userRouter/register.js');
 const loginRouter = require('./src/routes/userRouter/login.js');
 app.use(registerRouter);
 app.use(loginRouter);
+
 
 
 // run server
