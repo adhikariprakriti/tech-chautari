@@ -29,6 +29,13 @@ const db = mysql.createConnection({
       console.log("users table created");  
       });
 
+    //create table structure for screams
+    const sql="CREATE TABLE IF NOT EXISTS screams (id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,userHandle VARCHAR(255) NOT NULL,body TEXT NOT NULL,created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP)" ;
+    db.query(sql, function (err, result) {  
+      if (err) throw err;  
+      console.log("scream table created");  
+      });
+
      //create token table
      const tokensql="CREATE TABLE IF NOT EXISTS token (token_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,user_id INT NOT NULL ,token CHAR(128) NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id) )"
      db.query(tokensql, function (err, result) {  
