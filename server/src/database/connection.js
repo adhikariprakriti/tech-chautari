@@ -42,6 +42,13 @@ const db = mysql.createConnection({
          if (err) throw err;  
          console.log("token table created");  
       });
+   
+   /* const altersql= "ALTER TABLE users ADD image MEDIUMBLOB  NULL";
+     db.query(altersql, function (err, result) {  
+      if (err) throw err;  
+      console.log("users table altered");  
+   });*/
+   
   });
   
 module.exports=db;

@@ -8,7 +8,7 @@ const auth=async(req,res,next)=>{
           const decoded=jwt.verify(idToken,process.env.SECRET_KEY)
         
         
-        req.userHandle=decoded.id
+        req.id=decoded.id
         return next();
     }catch(e){
           res.status(401).send({error: "please authenticate."})
