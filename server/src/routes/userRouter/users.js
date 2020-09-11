@@ -4,8 +4,8 @@ const db=require('../../database/connection')
 const multer=require('multer')
 const auth=require("../../middleware/authentication")
 const sharp=require('sharp')
-
-
+const userdetailsValidator=require("../../functions/addUserProfile")
+//image upload
 const upload=multer({
     limits: {
         fileSize: 1000000
@@ -61,5 +61,53 @@ router.get('/:id/image',(req,res)=>{
          res.send(result[0].image)    
     })
 })
+
+
+
+
+//add users profile
+router.post('/user',auth,(req,res)=>{
+    const userdetails=userdetailsValidator(req.body)
+ 
+       const {bio,location,website}=userdetails
+       const sql="UPDATE users SET bio=?,location=?,website=? WHERE user_id=?" 
+       db.query(sql,[bio,location,website,req.id],(err,result)=>{
+        if (err){
+            return res.status(400).send(err)
+          }
+         res.send({message:"profile details successfully added",userdata:userdetails})
+       })
+})
+
+
+ //get authenticated userdetails
+
+router.get('/user',auth,(req,res)=>{
+     const userdata={}
+     const  sql="SELECT username,email,website,bio,location,user_id,created_at FROM users WHERE user_id= ?"
+    db.query(sql,req.id,(err,result)=>{
+        if (err){
+            return res.status(400).send(err)
+          }
+
+        const{username,email,website,bio,location,created_at,user_id}=result[0]
+        userdata.username=username
+        userdata.id=user_id
+        userdata.email=email
+        userdata.created_at=created_at
+        if(website!==null){
+            userdata.website=website
+        }
+        if(bio!==null){
+            userdata.bio=bio
+        }
+        if(location!==null){
+            userdata.location=location
+        }
+      res.send({userdata})     
+    })
+})
+
+
 
 module.exports=router

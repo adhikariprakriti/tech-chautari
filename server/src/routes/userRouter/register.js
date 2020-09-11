@@ -9,11 +9,18 @@ const generateAuthToken =require('../../functions/generatetoken')
 
 router.post('/api/register',(req,res)=>{
     
-    let{email,password,password_repeat}=req.body
+    let{email,password,password_repeat,username}=req.body
     //creating user object
     const user={
       email,
-      password
+      password,
+      username
+    }
+
+    if(!username){
+      return res.status(400).send({
+        msg: 'username should not be empty'
+      });
     }
 
     //validate user and the information provided by them
