@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../containers/button/button';
+import Button from '../../components/button/button';
 import classes from './login.module.css'
 const Login=()=>{
   return (

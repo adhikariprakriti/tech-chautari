@@ -1,13 +1,9 @@
 import React from 'react';
 import './registration.css'
-import Button from '../../containers/button/button'
+import Button from '../../components/button/button'
 const Registration=()=>{
   return (
     <div className="container">
-       <div className="container_signin">
-           <p>Already have an account?</p>
-           <button>Sign in</button>
-        </div>
        
      <div className="sub_container">
         <div className="title">
