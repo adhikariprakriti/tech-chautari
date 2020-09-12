@@ -7,13 +7,14 @@ const auth=async(req,res,next)=>{
         const idToken=req.header('Authorization').replace('Bearer ','')
         const decoded=jwt.verify(idToken,process.env.SECRET_KEY)
         req.id=decoded.id
-        sql="SELECT token from token where user_id= ?"
+        sql="SELECT * from users where user_id= ?"
         db.query(sql,decoded.id,(err,result)=>{
             if(err){
               return res.status(400).send({
                 msg:err})
             }
           req.image=result[0].image
+          req.username=result[0].username
         return next();
         })
         //return next();

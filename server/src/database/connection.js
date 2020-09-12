@@ -37,7 +37,7 @@ const db = mysql.createConnection({
       });
 
     //create comment table
-    const commentsql="CREATE TABLE IF NOT EXISTS comments (comment_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,scream_id INT(11) NOT NULL ,cuser_id INT(11) NOT NULL,cusername VARCHAR(255) NOT NULL,cbody TEXT NOT NULL,c_created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (cuser_id) REFERENCES users(user_id),FOREIGN KEY (scream_id) REFERENCES screams(scream_id))";
+    const commentsql="CREATE TABLE IF NOT EXISTS comments (comment_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,scream_id INT(11) NOT NULL ,user_id INT(11) NOT NULL,username VARCHAR(255) NOT NULL,body TEXT NOT NULL,created_at DATETIME NOT NULL ,FOREIGN KEY (user_id) REFERENCES users(user_id),FOREIGN KEY (scream_id) REFERENCES screams(scream_id) ON DELETE CASCADE)";
        db.query(commentsql, function (err, result) {  
       if (err) throw err;  
       console.log("comments table created");  
@@ -51,6 +51,15 @@ const db = mysql.createConnection({
          console.log("token table created");  
       });
    
+
+   const likesql="CREATE TABLE IF NOT EXISTS likes (user_id INT(11) NOT NULL,scream_id INT(11) NOT NULL,status BOOLEAN NOT NULL DEFAULT 0 ,FOREIGN KEY (user_id) REFERENCES users(user_id)  ON DELETE CASCADE ,FOREIGN KEY (scream_id) REFERENCES screams(scream_id) ON DELETE CASCADE )"
+   db.query(likesql, function (err, result) {  
+    if (err) throw err;  
+    console.log("likes table created");  
+ });
+
+
+
   /* const altersql= "ALTER TABLE users ADD image MEDIUMBLOB  NULL";
      db.query(altersql, function (err, result) {  
       if (err) throw err;  
@@ -62,6 +71,15 @@ const db = mysql.createConnection({
       console.log("users table altered");  
    });*/
    
+ /*const altersql= "ALTER TABLE comments ADD image MEDIUMBLOB  NULL";
+   db.query(altersql, function (err, result) {  
+    if (err) throw err;  
+    console.log("comments table altered");  
+ });*/
+
+
+
+
   });
   
 module.exports=db;
