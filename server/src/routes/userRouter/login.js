@@ -8,6 +8,11 @@ const generateAuthToken =require('../../functions/generatetoken')
 
 router.post('/api/login', (req,res)=>{
     const {email,password}=req.body
+    
+    if(req.body.email.trim()===''||req.body.password.trim()===''){
+        return res.status(400).send({msg:"email or password must not be empty"})
+    
+    }
 
     db.query("SELECT * FROM users WHERE email=?",email,async(err,result)=>{
 

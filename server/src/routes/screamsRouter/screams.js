@@ -5,12 +5,12 @@ const auth=require("../../middleware/authentication")
 const { response } = require('express')
 
 //read all the screams
-router.get('/screams',auth,(req,res)=>{
+router.get('/screams',(req,res)=>{
     db.query('SELECT * FROM screams', function (error, results, fields) {
         if (error){
           return res.status(500).send(error)  
         }
-     res.send(results)
+     res.status(200).send(results)
     });
 }) 
 
@@ -22,7 +22,7 @@ router.post('/screams',auth, function (req, res) {
     }
   db.query("SELECT username FROM users WHERE user_id=?",req.id,(err,result)=>{
     const username=result[0].username
-    db.query("INSERT INTO screams SET body=?,user_id= ?,username=?", [req.body.body,req.id,username], function (error, results, fields) {
+    db.query("INSERT INTO screams SET body=?,user_id= ?,username=?,image=?", [req.body.body,req.id,username,req.image], function (error, results, fields) {
       if (error){
           return res.status(500).send(error)
         }

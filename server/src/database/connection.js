@@ -56,7 +56,7 @@ const db = mysql.createConnection({
    db.query(likesql, function (err, result) {  
     if (err) throw err;  
     console.log("likes table created");  
- });
+   });
 
 
 
@@ -77,9 +77,12 @@ const db = mysql.createConnection({
     console.log("comments table altered");  
  });*/
 
+/* const altersql= "ALTER TABLE screams ADD image MEDIUMBLOB  NULL";
+  db.query(altersql, function (err, result) {  
+  if (err) throw err;  
+  console.log("screams table altered");  
+});*/
+});   
 
 
-
-  });
-  
 module.exports=db;
