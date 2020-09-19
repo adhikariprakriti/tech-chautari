@@ -1,9 +1,12 @@
-import React,{useState,useEffect}from 'react';
+import React,{useState}from 'react';
 import Button from '../../components/button/button';
 import classes from './login.module.css'
-import axios  from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
+import PropTypes from 'prop-types';
+//redux stuff
+import {connect} from 'react-redux';
+import {loginUser} from '../../redux/actions/userActions';
 
 
 const useStyles=makeStyles({
@@ -13,35 +16,28 @@ const useStyles=makeStyles({
         marginBottom:"10px"
      }
 })
-const Login=()=>{
-   const errors={}
-   const history=useHistory();
+
+const Login=(props)=>{
+  const history=useHistory();
    const [email,setEmail]=useState('');
    const [password,setPassword]=useState('');
-   const [loading,setLoading]=useState(false);
+   const [errors,setErrors]=useState(null)
   const handleSubmit=(e)=>{
        e.preventDefault();
-       setLoading(true);
        const userData={
           email,
           password
        }
-   
-         axios.post('http://localhost:5000/api/login',userData)
-         .then(res=>{
-            setLoading(false)
-            history.push('/')
-         }).catch(err=>{
-              alert((err.response)?.data.msg)  
-            setLoading(false)
-         })
 
+   props.loginUser(userData,history)
    }
-
+   
    const style=useStyles();
 
   return ( 
- <div className="container">  
+
+
+ <div className="container" >  
      <div className={classes.sub_container}>
         <div className={classes.title}>
             <h1>Welcome Back !!!</h1>
@@ -59,7 +55,7 @@ const Login=()=>{
             <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
          </div>
          
-         <Button name="Log In" disabled={loading}/>
+         <Button name="Log In" />
         </form>        
      </div>
   </div>
@@ -67,5 +63,25 @@ const Login=()=>{
   );
 }
 
-export default Login;
+loginUser.prototypes={
+   loginUser: PropTypes.func.isRequired,
+   UI: PropTypes.object.isRequired,
+   user:PropTypes.object.isRequired
+}
+
+const mapStateToProps=(state)=>({
+   user: state.user,
+   UI:state.UI
+})
+
+const mapDispatchToProps=(dispatch)=>{
+   return {
+      loginUser:function(userData,history){
+      dispatch(loginUser(userData,history))
+   }
+}
+}
+ 
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
 

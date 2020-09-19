@@ -2,6 +2,8 @@ import React,{useEffect,useState}from 'react';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Scream from '../../components/screams/screams';
+import Profile from '../../components/Profile/Profile';
+
 
 function Home() {
     const [screams,setscreams]=useState(null)
@@ -12,7 +14,7 @@ function Home() {
        })
       })
 
-      const listofscreams= screams ? screams.map(scream=><Scream key={scream.scream_id} scream={scream}/>):(<p>Loading...</p>)
+   const listofscreams= screams ? screams.map(scream=><Scream key={scream.scream_id} scream={scream}/>):(<p>Loading...</p>)
 
    return (
     <Grid container spacing={2} >
@@ -20,7 +22,7 @@ function Home() {
         {listofscreams}
       </Grid>
       <Grid item sm={4} xs={12}>
-        <p>Profile....</p>
+        <Profile />
       </Grid>
     </Grid>
   );

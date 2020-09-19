@@ -89,7 +89,7 @@ router.post('/api/register',(req,res)=>{
                  const token= generateAuthToken(result[0].user_id)
                  return res.status(201)
                   .send({
-                      user,
+                      userdata:user,
                       token,
                       msg:"successfully registered"
                     })

@@ -14,6 +14,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
         display:"flex",
         width:"70%",
         margin:"20px auto",
+        
 
 
     },

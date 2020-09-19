@@ -1,26 +1,44 @@
 import React from 'react';
 import './App.css';
-import {  BrowserRouter,Route,Switch,Link} from 'react-router-dom';
+import {  BrowserRouter,Route,Switch} from 'react-router-dom';
 import Navbar from './components/navbar/navbar';
 import Registration from './pages/registration/registration'
 import Login from './pages/login/login';
 import Home from './pages/home/home'
+import AuthRoute from './components/AuthRoute';
+import store from './redux/store.js';
+import {Provider} from 'react-redux';
+//import PropTypes from 'prop-types';
+//redux stuff
+import {connect} from 'react-redux';
 
-function App() {
+
+//const token = localStorage.FBIdToken;
+//if(token){
+//authenticated = true;
+//}
+
+function App(props) {
   return ( 
-    <div className="App">
-      <BrowserRouter>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
           <Navbar/>
           <Switch>
               <Route path='/' component={Home} exact/>
-              <Route path='/register' component={Registration} exact/>
-              <Route path='/login' component={Login} exact/>
-
+              <AuthRoute path='/register' component={Registration} authenticated={props.user.authenticated} exact/>
+              <AuthRoute path='/login' component={Login} authenticated={props.user.authenticated} exact/>
           </Switch>
-
-      </BrowserRouter>
-    </div>
-  );
+        </BrowserRouter>
+      </div>
+    </Provider>
+     );
 }
 
-export default App;
+
+const mapStateToProps=(state)=>({
+  user: state.user,
+  UI:state.UI
+})
+
+export default connect(mapStateToProps)(App);
