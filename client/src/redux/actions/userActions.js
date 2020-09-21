@@ -64,7 +64,27 @@ export const logoutUser=()=>(dispatch)=>{
              type: SET_USER,
              payload:res.data.userdata
          })
+
+         console.log(res.data.userdata.image.data)
      }).catch(err=>console.log(err));
   }
 
-  
+  export const uploadImage=(formData)=>(dispatch)=>{
+    dispatch({type : LOADING_USER});
+    axios.post("http://localhost:5000/image",formData)
+    .then(()=>{
+      dispatch({type: CLEAR_ERRORS});
+
+        dispatch(getUserData());
+        console.log("uploaded successfully")
+    }).catch(err=>{
+      console.log(err)
+      dispatch({
+        type: SET_ERRORS,
+        payload: (err.response)?.data.msg
+    })
+ alert("upload file less than 1.5 MB")
+ dispatch({type: CLEAR_ERRORS});
+
+  })
+}

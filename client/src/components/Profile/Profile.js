@@ -14,18 +14,44 @@ import avatar from '../../images/avatar.png'
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import dayjs from 'dayjs';
 import classes from './profile.module.css'
-
+import Tooltip from '@material-ui/core/Tooltip';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import {uploadImage} from '../../redux/actions/userActions';
 
 
 const Profile=(props)=>{
-const {img,username,email,created_at,website,bio,location}=props.user.userdata
+const {image,username,email,created_at,website,bio,location}=props.user.userdata
+
+const handleImageChange=e=>{
+  const image=e.target.files[0];
+  console.log(image);
+  const formData=new FormData();
+  formData.append('avatar',image)
+  props.uploadImage(formData)
+}
+
+const handleEditImage=()=>{
+  const fileInput=document.getElementById("imageInput");
+  fileInput.click();
+}
 
 let profileMarkup=!props.user.loading?
                (props.user.authenticated?
                 (
                   <div className={classes.container}>
          <div className={classes.profile_image}>
-           <img src={img ? img : avatar} alt="profile" />    
+           <img src={image ? `data:image/png;base64,${image}` : avatar} alt="profile" />    
+          <input  type="file" 
+                  id="imageInput"
+                  hidden="hidden" 
+                  onChange={handleImageChange}/>
+          <Tooltip title="Edit profile picture" placement="top">
+            <IconButton onClick={handleEditImage} className="button">
+              <EditIcon style={{ color: "#003D5B"}} />
+            </IconButton>
+          </Tooltip>
         </div>
         <div className={classes.username}>
           <Link to={`/users/${username}`} ><h2>{username}</h2></Link>
@@ -39,7 +65,7 @@ let profileMarkup=!props.user.loading?
           {
             email && 
             <Fragment>
-              <EmailIcon/>{' '}<span>{email}</span>
+              <EmailIcon style={{ color: "#003D5B"}} />{' '}<span>{email}</span>
             </Fragment>
             
           }
@@ -49,7 +75,7 @@ let profileMarkup=!props.user.loading?
           {
             location &&
             <Fragment>
-               <LocationOnIcon/>{' '}<span>{location}</span>
+               <LocationOnIcon style={{ color: "#003D5B"}}/>{' '}<span>{location}</span>
             </Fragment>
           }
           
@@ -58,7 +84,7 @@ let profileMarkup=!props.user.loading?
           {
             website &&
             <Fragment>
-                 <LinkIcon/>
+                 <LinkIcon style={{ color: "#003D5B"}}/>
                  <a href={website} target="_blank" rel="noopener noreferrer">
                    {''}{website}
                  </a>
@@ -69,7 +95,7 @@ let profileMarkup=!props.user.loading?
           {
             created_at &&
             <Fragment>
-                  <CalendarToday />{' '}<span>Joined {dayjs(created_at).format('MMM YYYY')}</span>
+                  <CalendarToday style={{ color: "#003D5B"}}/>{' '}<span>Joined {dayjs(created_at).format('MMM YYYY')}</span>
             </Fragment>
           } 
         </div>
@@ -81,6 +107,7 @@ let profileMarkup=!props.user.loading?
        <Link to="/login"><Button name="login" /></Link>
        {' '}
        <Link to="/register"><Button name="Register"/></Link>
+      
      </div>
     </div>)) 
   : (<h5>loading....</h5>) 
@@ -90,12 +117,21 @@ let profileMarkup=!props.user.loading?
 
 Profile.prototypes={
     user:PropTypes.object.isRequired,
-    classes:PropTypes.object.isRequired
+    classes:PropTypes.object.isRequired,
+    uploadImage: PropTypes.func.isRequired,
  }
 
 const mapStateToProps=(state)=>({
     user: state.user,
-   
+ 
  })
 
-export default connect(mapStateToProps)(Profile);
+ const mapDispatchToProps=(dispatch)=>{
+  return {
+     uploadImage:function(formData){
+     dispatch(uploadImage(formData))
+  }
+}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Profile);

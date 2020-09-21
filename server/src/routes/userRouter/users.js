@@ -8,7 +8,7 @@ const userdetailsValidator=require("../../functions/addUserProfile")
 //image upload
 const upload=multer({
     limits: {
-        fileSize: 1000000
+        fileSize: 2000000
     },
     fileFilter(req,file,cb){
         if(!file.originalname.match(/\.(jpg|peg|png)$/)){
@@ -19,18 +19,16 @@ const upload=multer({
     })
 
 router.post('/image',auth,upload.single('avatar'),async (req,res)=>{
- 
+      console.log(req.file.buffer)
     const image=await sharp(req.file.buffer).resize({width:250 ,height:250}).png().toBuffer() 
     const id=req.id
     
-    const sql="UPDATE users SET image= ? WHERE user_id=2"
+    const sql="UPDATE users SET image= ? WHERE user_id=?"
        db.query(sql,[image,id ],(err,result)=>{
       if (err){
         return res.status(400).send(err)
       }
-
-    res.send()
-
+    res.status(200).send(req.file)
 })
 
 },(error,req,res,next)=>{
@@ -84,17 +82,18 @@ router.post('/user',auth,(req,res)=>{
 
 router.get('/user',auth,(req,res)=>{
      const userdata={}
-     const  sql="SELECT username,email,website,bio,location,user_id,created_at FROM users WHERE user_id= ?"
+     const  sql="SELECT username,email,website,bio,location,user_id,created_at,image FROM users WHERE user_id= ?"
     db.query(sql,req.id,(err,result)=>{
         if (err){
             return res.status(400).send(err)
           }
 
-        const{username,email,website,bio,location,created_at,user_id}=result[0]
+        const{username,email,website,bio,location,created_at,user_id,image}=result[0]
         userdata.username=username
         userdata.id=user_id
         userdata.email=email
         userdata.created_at=created_at
+       
         if(website!==null){
             userdata.website=website
         }
@@ -103,6 +102,9 @@ router.get('/user',auth,(req,res)=>{
         }
         if(location!==null){
             userdata.location=location
+        }
+        if(image!==null){
+            userdata.image=Buffer.from(image).toString('base64')
         }
       res.send({userdata})     
     })
