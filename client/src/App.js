@@ -11,12 +11,14 @@ import {Provider} from 'react-redux';
 //import PropTypes from 'prop-types';
 //redux stuff
 import {connect} from 'react-redux';
+import {SET_AUTHENTICATED} from './redux/types';
 
-
-//const token = localStorage.FBIdToken;
-//if(token){
-//authenticated = true;
-//}
+const token = localStorage.FBIdToken;
+if(token){
+   store.dispatch({
+      type: SET_AUTHENTICATED
+   })
+  }
 
 function App(props) {
   return ( 

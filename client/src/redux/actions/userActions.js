@@ -1,11 +1,11 @@
 import {SET_USER,SET_ERRORS,CLEAR_ERRORS,LOADING_UI, SET_UNAUTHENTICATED,LOADING_USER} from '../types';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 const setAuthorizationHeader=(token)=>{
     const FBIdToken=`Bearer ${token}`
        localStorage.setItem('FBIdToken',FBIdToken);
-       axios.defaults.headers.common['Authorization']=FBIdToken;
-       
+       axios.defaults.headers.common['Authorization']=FBIdToken;       
 }
 
   export const loginUser=(userData,history)=>(dispatch)=>{
@@ -16,8 +16,9 @@ const setAuthorizationHeader=(token)=>{
        setAuthorizationHeader(res.data.token)
        dispatch(getUserData());
        dispatch({type: CLEAR_ERRORS});
-       // history.push('/');    
+      history.push('/');    
     }).catch(err=>{
+      console.log(err)
         dispatch({
             type: SET_ERRORS,
             payload: err.response.data.msg
@@ -36,8 +37,7 @@ const setAuthorizationHeader=(token)=>{
        setAuthorizationHeader(res.data.token)
        dispatch({type: CLEAR_ERRORS});
        dispatch(getUserData());
-
-       // history.push('/');    
+       history.push('/');    
     }).catch(err=>{
         dispatch({
             type: SET_ERRORS,
@@ -49,11 +49,9 @@ const setAuthorizationHeader=(token)=>{
 
 
 export const logoutUser=()=>(dispatch)=>{
-
      localStorage.removeItem('FBIdToken');
      delete axios.defaults.headers.common['Authorization']
      dispatch({type : SET_UNAUTHENTICATED});
-
     }
 
   export const getUserData=()=>(dispatch)=>{
