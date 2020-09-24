@@ -19,7 +19,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import {uploadImage} from '../../redux/actions/userActions';
-
+import EditProfile from '../editProfile/editprofile'
 
 const Profile=(props)=>{
 const {image,username,email,created_at,website,bio,location}=props.user.userdata
@@ -99,6 +99,8 @@ let profileMarkup=!props.user.loading?
             </Fragment>
           } 
         </div>
+
+        <EditProfile/>
       </div>
    )
   :(<div className={classes.container}>

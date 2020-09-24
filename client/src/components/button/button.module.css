@@ -12,6 +12,8 @@
     background-color: #e7a02e;
     color:#003D5B;
     overflow: hidden;
+    margin-bottom: 2px;
+    margin-top: 5px;
 }
 
 .button:hover{

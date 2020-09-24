@@ -63,7 +63,7 @@ router.get('/:id/image',(req,res)=>{
 
 
 
-//add users profile
+//add/update users profile
 router.post('/user',auth,(req,res)=>{
     const userdetails=userdetailsValidator(req.body)
  

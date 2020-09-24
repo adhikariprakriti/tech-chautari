@@ -67,6 +67,20 @@ export const logoutUser=()=>(dispatch)=>{
      }).catch(err=>console.log(err));
   }
 
+
+
+export const editUserDetails=(userDetails)=>(dispatch)=>{
+  dispatch({type : LOADING_USER});
+  axios.post("http://localhost:5000/user",userDetails)
+  .then(()=>{
+       dispatch(getUserData())
+  }).catch(err=>console.log(err))
+  
+}
+
+
+
+
   export const uploadImage=(formData)=>(dispatch)=>{
     dispatch({type : LOADING_USER});
     axios.post("http://localhost:5000/image",formData)

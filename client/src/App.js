@@ -15,9 +15,11 @@ import {SET_AUTHENTICATED} from './redux/types';
 
 const token = localStorage.FBIdToken;
 if(token){
-   store.dispatch({
-      type: SET_AUTHENTICATED
-   })
+ //  store.dispatch({
+  //    type: SET_AUTHENTICATED
+  const authenticated =true
+//})
+
   }
 
 function App(props) {
