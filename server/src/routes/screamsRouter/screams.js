@@ -6,7 +6,7 @@ const { response } = require('express')
 
 //read all the screams
 router.get('/screams',(req,res)=>{
-    db.query('SELECT * FROM screams', function (error, results, fields) {
+    db.query('SELECT * FROM screams ORDER BY  created_at desc', function (error, results, fields) {
         if (error){
           return res.status(500).send(error)  
         }
@@ -27,7 +27,13 @@ router.post('/screams',auth, function (req, res) {
           return res.status(500).send(error)
         }
   
-      return res.send({msg:"scream created",scream:req.body,image:req.image});
+     db.query("SELECT * FROM screams WHERE user_id=?",[req.id],(err,result)=>{
+      if (error){
+        return res.status(500).send(error)
+      }
+      return(res.status(200).send(result[result.length-1]))
+     })
+      //return res.send({msg:"scream created",scream:req.body,image:req.image});
       });
   })
 });
