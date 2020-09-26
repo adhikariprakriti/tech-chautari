@@ -1,4 +1,4 @@
-import {SET_USER,LOADING_USER, SET_AUTHENTICATED,SET_UNAUTHENTICATED} from '../types';
+import {SET_USER,LOADING_USER,LIKE_SCREAM, SET_AUTHENTICATED,SET_UNAUTHENTICATED,UNLIKE_SCREAM} from '../types';
 
 const initialState={
     authenticated: false,
@@ -29,6 +29,27 @@ export default function(state=initialState,action){
                         ...state,
                         loading: true
                     };
+
+            case LIKE_SCREAM:
+                return{
+                    ...state,
+                    likes:[
+                        ...state.likes,
+                        {
+                            username: state.credentials.username,
+                            screamId: action.payload.screamId
+                        }
+                    ]
+                }
+
+                case UNLIKE_SCREAM:
+                    return{
+                        ...state,
+                        likes:state.likes.filter(
+                            (like)=>like.screamId===action.payload.screamId
+                        )
+                    }
+    
         default:
             return state;
     }

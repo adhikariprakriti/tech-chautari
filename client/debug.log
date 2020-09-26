@@ -10,3 +10,12 @@
 [0923/100530.744:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
 [0923/100531.028:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
 [0923/100531.029:ERROR:exception_snapshot_win.cc(99)] thread ID 16700 not found in process
+[0924/184348.093:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0924/184350.472:ERROR:exception_snapshot_win.cc(99)] thread ID 2460 not found in process
+[0924/184350.472:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
+[0924/184350.629:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[0924/184350.630:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[0924/184350.629:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[0924/184350.630:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[0924/184350.630:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
+[0924/184350.630:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)

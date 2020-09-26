@@ -3,18 +3,20 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Scream from '../../components/screams/screams';
 import Profile from '../../components/Profile/Profile';
+import {connect} from 'react-redux';
+import {getScreams,getScream} from '../../redux/actions/dataActions';
 
 
-function Home() {
-    const [screams,setscreams]=useState(null)
-    useEffect(()=>{
-       axios.get('http://localhost:5000/screams')
-       .then(response=>{
-         setscreams(response.data)
-       })
-      })
+function Home(props) {
+    const {screams,loading}=props.data
+     
+  useEffect(()=>{
+       props.getScreams();
+  },[])
 
-   const listofscreams= screams ? screams.map(scream=><Scream key={scream.scream_id} scream={scream}/>):(<p>Loading...</p>)
+  
+
+  const listofscreams= !loading ? screams.map(scream=><Scream key={scream.scream_id}  scream={scream} />):(<p>Loading...</p>)
 
    return (
     <Grid container spacing={2} >
@@ -28,4 +30,18 @@ function Home() {
   );
 }
 
-export default Home;
+const mapStateToProps=(state)=>({
+  data: state.data,
+})
+
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    getScreams:()=>{
+     dispatch(getScreams())
+  },
+ 
+}
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);

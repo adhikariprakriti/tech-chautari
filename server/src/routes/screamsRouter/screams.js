@@ -90,7 +90,6 @@ router.post('/scream/:scream_id/comment',auth,(req,res)=>{
 })
 
 
-
 //like on particular scream
 router.get('/scream/:scream_id/like',auth,(req,res)=>{
      
@@ -105,7 +104,7 @@ router.get('/scream/:scream_id/like',auth,(req,res)=>{
           return res.status(500).send(err)
         }
         
-        res.send({msg:"acream liked"})
+        res.send({msg:"scream liked",screamId:req.params.scream_id})
     
       })
     }else{
@@ -113,6 +112,19 @@ router.get('/scream/:scream_id/like',auth,(req,res)=>{
     }
   })
 })
+
+//get likes
+router.get('/scream/:scream_id/likes',auth,(req,res)=>{
+     
+  db.query("SELECT * FROM likes WHERE scream_id=?",[req.params.scream_id],(err,result)=>{
+    if (err){
+      return res.status(500).send(err)
+    }
+     
+    return res.status(200).send(res)
+})
+})
+
 
 
 //unlike a scream
@@ -128,7 +140,7 @@ router.get('/scream/:scream_id/unlike',auth,(req,res)=>{
           return res.status(500).send(err)
         }
         
-        res.send({msg:"scream unliked"})
+        res.send({msg:"scream unliked",screamId:req.params.scream_id})
     
       })
     }else{

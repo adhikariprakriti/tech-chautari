@@ -8,18 +8,17 @@ import Home from './pages/home/home'
 import AuthRoute from './components/AuthRoute';
 import store from './redux/store.js';
 import {Provider} from 'react-redux';
-//import PropTypes from 'prop-types';
-//redux stuff
 import {connect} from 'react-redux';
 import {SET_AUTHENTICATED} from './redux/types';
+import {getUserData} from './redux/actions/userActions';
+import axios from 'axios';
+
 
 const token = localStorage.FBIdToken;
 if(token){
- //  store.dispatch({
-  //    type: SET_AUTHENTICATED
-  const authenticated =true
-//})
-
+  store.dispatch({ type: SET_AUTHENTICATED });
+  axios.defaults.headers.common['Authorization'] = token;
+  store.dispatch(getUserData());
   }
 
 function App(props) {
