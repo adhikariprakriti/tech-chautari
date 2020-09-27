@@ -16,10 +16,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles=makeStyles({
     close:{
-       color:"red",
+       color:"black",
     },
     icon:{
-        left:"70%"
+        left:"90%"
     },
 })
 
@@ -58,7 +58,7 @@ const PostScream=(props)=>{
                  onClose={handleClose}
                  fullWidth
                  maxWidth="sm">
-               <IconButton onClick={handleClose}  className={style.icon}>
+               <IconButton onClick={handleClose}  className={style.icon} style={{ width: "35px", height:"35px"}} >
                    <CloseIcon className={style.close}/>
                </IconButton>
                 <DialogTitle className={style.title}>Post a new scream</DialogTitle>

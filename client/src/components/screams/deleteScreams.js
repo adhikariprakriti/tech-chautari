@@ -25,8 +25,8 @@ const deleteScream=()=>{
 
   return (
     <Fragment>
-       <IconButton onClick={handleOpen}>
-           <DeleteOutline color="secondary"/>
+       <IconButton onClick={handleOpen} style={{ width: "35px", height:"35px",left:"80%"}}>
+           <DeleteOutline style={{color:"red"}}/>
        </IconButton>
         <Dialog 
              open={open} 

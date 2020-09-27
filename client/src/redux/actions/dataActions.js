@@ -1,4 +1,4 @@
-import {SET_SCREAMS,POST_SCREAM,LOADING_DATA,LIKE_SCREAM,DELETE_SCREAM,UNLIKE_SCREAM,GET_SCREAM,LOADING_UI, CLEAR_ERRORS} from '../types';
+import {SET_SCREAMS,STOP_LOADING_UI,POST_SCREAM,LOADING_DATA,LIKE_SCREAM,DELETE_SCREAM,UNLIKE_SCREAM,GET_SCREAM,LOADING_UI, CLEAR_ERRORS} from '../types';
 import axios from 'axios';
 
 export const getScreams=()=>dispatch=>{
@@ -14,24 +14,29 @@ export const getScreams=()=>dispatch=>{
 
 //like a scream
 export const likeScream=(screamId)=>dispatch=>{
+    dispatch({type: LOADING_UI});
     axios.get(`http://localhost:5000/scream/${screamId}/like`)
     .then(res=>{
         dispatch({
             type:LIKE_SCREAM,
             payload:res.data
         }) 
+    dispatch({type:STOP_LOADING_UI})
+
     }).catch((err)=>console.log(err))
 }
 
 
 //get particular scream
 export const getScream=(screamId)=>dispatch=>{
+    dispatch({type: LOADING_UI});
     axios.get(`http://localhost:5000/screams/${screamId}`)
     .then(res=>{
         dispatch({
             type:GET_SCREAM,
             payload:res.data
         }) 
+        dispatch({type:STOP_LOADING_UI})
     }).catch((err)=>console.log(err))
 }
 
@@ -39,12 +44,15 @@ export const getScream=(screamId)=>dispatch=>{
 
 //unlike a scream
 export const unlikeScream=(screamId)=>dispatch=>{
+   // dispatch({type: LOADING_UI});
     axios.get(`http://localhost:5000/scream/${screamId}/unlike`)
     .then(res=>{
         dispatch({
             type:UNLIKE_SCREAM,
             payload:res.data
         }) 
+      //  dispatch({type:STOP_LOADING_UI})
+
     }).catch((err)=>console.log(err))
 }
 

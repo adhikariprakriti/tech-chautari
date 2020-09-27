@@ -14,7 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import DeleteScreams from './deleteScreams'
+import DeleteScreams from './deleteScreams';
+import ScreamDialog from './screamDialog';
 
  const useStyles=makeStyles({
     card: {
@@ -64,19 +65,19 @@ const Scream=(props)=>{
 
 
   const likeButton=!props.user.authenticated?(
-    <IconButton>
+    <IconButton style={{ width: "35px", height:"35px"}}>
       <Link to='/login'>
-      <FavoriteBorderIcon color="primary"/>
+      <FavoriteBorderIcon style={{color:"E76F51"}}/>
       </Link>
     </IconButton>
   ):(likedScream()?(
-       <IconButton onClick={unlikeScream}>
-         <FavoriteIcon color="primary"/>
+       <IconButton onClick={unlikeScream} style={{ width: "35px", height:"35px"}}>
+         <FavoriteIcon style={{color:"E76F51"}}/>
        </IconButton>
   ):
   (
-    <IconButton onClick={likeScream}>
-      <FavoriteBorderIcon color="primary"/>
+    <IconButton onClick={likeScream}  style={{ width: "35px", height:"35px"}} >
+      <FavoriteBorderIcon style={{color:"E76F51"}}/>
     </IconButton>
 
   )
@@ -97,12 +98,12 @@ const deleteButton=props.user.authenticated && props.scream.user_id===props.user
             <Typography variant="body2" color="textSecondary">{dayjs(props.scream.created_at).fromNow()}</Typography>
             <Typography variant="body1">{props.scream.body}</Typography>
             {likeButton}
-            <span>{props.data.scream.likeCount} likes</span>
-            <IconButton color="secondary" aria-label="add an alarm">
-               <CommentIcon />
+            <span style={{marginRight:"30px"}}>{props.data.scream.likeCount} likes</span>
+            <IconButton   aria-label="add an alarm" style={{ width: "35px", height:"35px"}}>
+               <CommentIcon style={{color:"E76F51"}}/>
             </IconButton>
             <span>{3} comments</span>
-
+              <ScreamDialog screamId={props.scream.scream_id} userId={props.scream.user_id}/>
             </CardContent> 
        </Card> 
   );

@@ -16,13 +16,15 @@ function Home(props) {
 
   
 
-  const listofscreams= !loading ? screams.map(scream=><Scream key={scream.scream_id}  scream={scream} />):(<p>Loading...</p>)
+  const listofscreams= !loading ? screams.map(scream=><div><Scream key={scream.scream_id}  scream={scream} /></div>):(<p>Loading...</p>)
 
    return (
     <Grid container spacing={2} >
+  
       <Grid item sm={8} xs={12}>
         {listofscreams}
       </Grid>
+   
       <Grid item sm={4} xs={12}>
         <Profile />
       </Grid>

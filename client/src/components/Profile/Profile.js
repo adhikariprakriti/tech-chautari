@@ -42,16 +42,19 @@ let profileMarkup=!props.user.loading?
                 (
                   <div className={classes.container}>
          <div className={classes.profile_image}>
-           <img src={image ? `data:image/png;base64,${image}` : avatar} alt="profile" />    
-          <input  type="file" 
+           <img src={image ? `data:image/png;base64,${image}` : avatar} alt="profile" />
+           <div>
+              <input  type="file" 
                   id="imageInput"
                   hidden="hidden" 
                   onChange={handleImageChange}/>
-          <Tooltip title="Edit profile picture" placement="top">
-            <IconButton onClick={handleEditImage} className="button">
-              <EditIcon style={{ color: "#003D5B"}} />
-            </IconButton>
-          </Tooltip>
+              <Tooltip title="Edit profile picture" placement="top">
+                   <IconButton onClick={handleEditImage} className="button" style={{ width: "35px", height:"35px"}}>
+                      <EditIcon style={{ color: "#003D5B"}} />
+                   </IconButton>
+              </Tooltip>
+ 
+           </div>    
         </div>
         <div className={classes.username}>
           <Link to={`/users/${username}`} ><h2>{username}</h2></Link>

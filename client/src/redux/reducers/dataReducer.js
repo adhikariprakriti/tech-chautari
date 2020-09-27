@@ -43,6 +43,14 @@ export default function(state=initialState,action){
             return{
                 ...state
             }
+        case LIKE_SCREAM:
+             return{
+                 ...state
+             }
+         case UNLIKE_SCREAM:
+             return{
+                 ...state
+             }
             default: 
               return state
          }
