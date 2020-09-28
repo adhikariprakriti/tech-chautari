@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react';
+import React,{Fragment,useEffect} from 'react';
 import classes from './comments.module.css';
 import Grid from '@material-ui/core/Grid';
 import {Link} from 'react-router-dom';
@@ -6,6 +6,9 @@ import { Typography } from '@material-ui/core';
 import avatar from '../../images/avatar.png'
 import dayjs from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
+import {connect} from 'react-redux';
+import {getScream} from '../../redux/actions/dataActions'
+
 
 const useStyles=makeStyles({
     commentImage:{
@@ -20,7 +23,7 @@ const useStyles=makeStyles({
 const Comments=(props)=>{
     const {comments}=props
     const style=useStyles();
-
+    
   return (
       <Grid container>
         {comments.map((comment)=>{
@@ -33,7 +36,7 @@ const Comments=(props)=>{
                          <img src={image ? `data:image/png;base64,${ Buffer.from(image).toString('base64')}` : avatar} alt="commenter" style={{ height: "80px", width:"80px",objectFit: "cover", borderRadius: "50%" }}/>
                       </Grid>
                       <Grid item sm={9}>
-                        <div style={{marginLeft:"20px"}}>
+                        <div style={{marginLeft:"20px",marginBottom:"20px"}}>
                            <Typography
                                variant="h5"
                                component={Link}
@@ -58,4 +61,12 @@ const Comments=(props)=>{
   );
 }
 
-export default Comments;
+const mapDispatchToProps=(dispatch)=>{
+  return {
+ getScream:(screamId)=>{
+  dispatch(getScream(screamId))
+}
+  }}
+
+
+export default connect(null,mapDispatchToProps)(Comments);

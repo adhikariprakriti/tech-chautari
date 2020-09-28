@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 import { Typography,CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {connect} from 'react-redux';
-import {getScream,likeScream,unlikeScream} from '../../redux/actions/dataActions'
+  import {getScream,likeScream,unlikeScream} from '../../redux/actions/dataActions'
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -20,7 +20,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CommentIcon from '@material-ui/icons/Comment';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Comments from '../comments/comments';
-
+import ComponentForm from './componentForm';
 
 const ScreamDialog=(props)=>{
     const{scream_id,user_id,created_at,body,likeCount,image,username,comments}=props.scream
@@ -92,10 +92,13 @@ const likeButton=!like?(
             <span>{comments?.length} comments</span>
           </div>  
           <hr/>
- 
        </Grid>
+       <div>
+         <ComponentForm screamId={scream_id}/>
+         <hr/>
+        </div>
        <div style={{marginTop:"20px",paddingLeft:"20px"}}>
-                 <Comments comments={comments}/>
+          <Comments comments={comments} screamId={scream_id} />
        </div>
     </Grid>
   )

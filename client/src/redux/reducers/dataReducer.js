@@ -1,4 +1,4 @@
-import {SET_SCREAMS,LOADING_DATA,POST_SCREAM,LIKE_SCREAM,UNLIKE_SCREAM,GET_SCREAM, DELETE_SCREAM} from '../types';
+import {SET_SCREAMS,LOADING_DATA,POST_SCREAM,LIKE_SCREAM,UNLIKE_SCREAM,GET_SCREAM, DELETE_SCREAM, SUBMIT_COMMENT} from '../types';
 
 const initialState={
     screams:[],
@@ -50,6 +50,15 @@ export default function(state=initialState,action){
          case UNLIKE_SCREAM:
              return{
                  ...state
+             }
+         case SUBMIT_COMMENT:
+             return{
+                ...state,
+                scream:{
+                    ...state.scream,
+                    comments:[action.payload,...state.scream.comments]
+                }
+
              }
             default: 
               return state
